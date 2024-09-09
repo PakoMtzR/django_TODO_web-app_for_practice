@@ -1,4 +1,10 @@
 from django.urls import path
-from . import views
+from .views import PendingList, TaskDetail, CreateTask, EditTask, DeleteTask
 
-urlpatterns = [path('', views.pending_list, name="pendings")]
+urlpatterns = [
+    path('', PendingList.as_view(), name="tasks"),
+    path('task/<int:pk>', TaskDetail.as_view(), name="task"),
+    path('create-task', CreateTask.as_view(), name="create-task"),
+    path('edit-task/<int:pk>', EditTask.as_view(), name="edit-task"),
+    path('delete-task/<int:pk>', DeleteTask.as_view(), name="delete-task")
+]

@@ -1,0 +1,31 @@
+<h1>Pending List</h1>
+<a href="{% url 'create-task' %}">Create New Task</a>
+<table>
+    <tr>
+        <th>Items</th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    {% for task in tasks %}
+
+    <tr>
+        <td>
+            {{task.title}}
+        </td>
+        <td>
+            <a href="{% url 'task' task.id %}">See details</a>
+        </td>
+        <td>
+            <a href="{% url 'edit-task' task.id %}">Edit</a>
+        </td>
+        <td>
+            <a href="{% url 'delete-task' task.id %}">Delete</a>
+        </td>
+    </tr>
+    
+    {% empty %}
+    <h3>There are no items in this list</h3>
+
+    {% endfor %}
+</table>
