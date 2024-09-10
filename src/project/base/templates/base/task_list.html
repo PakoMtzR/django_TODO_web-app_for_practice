@@ -1,6 +1,9 @@
 {% if request.user.is_authenticated %}
     <p>{{request.user}}</p>
-    <a href="{% url 'logout' %}">Logout</a>
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
 
 {% else %}
     <a href="{% url 'login' %}">Login</a>
@@ -9,6 +12,12 @@
 
 <h1>Pending List</h1>
 <a href="{% url 'create-task' %}">Create New Task</a>
+
+<form method="GET">
+    <input type="text" name="search-area" value="{{search_value}}">
+    <input type="submit" value="Search">
+</form>
+
 <table>
     <tr>
         <th>Items</th>
@@ -17,7 +26,6 @@
     </tr>
 
     {% for task in tasks %}
-
     <tr>
         <td>
             {{task.title}}
