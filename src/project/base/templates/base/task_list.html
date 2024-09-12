@@ -2,55 +2,48 @@
 {% block content %}
 
 
-{% if request.user.is_authenticated %}
-    <p>{{request.user}}</p>
+<div class="top-bar">
+    <div>
+        <h1>Hello {{request.user|title}}</h1>
+        <h3 style="margin: 0">You have <i>{{count}}</i> incomplete task{{count|pluralize}}</h3>
+    </div>
+    {% if request.user.is_authenticated %}
     <form method="POST" action="{% url 'logout' %}">
         {% csrf_token %}
         <button type="submit">Logout</button>
     </form>
-
-{% else %}
+    
+    {% else %}
     <a href="{% url 'login' %}">Login</a>
-{% endif %}
-<hr>
+    {% endif %}
+</div>
+
 
 <h1>Pending List</h1>
-<a href="{% url 'create-task' %}">Create New Task</a>
 
-<form method="GET">
-    <input type="text" name="search-area" value="{{search_value}}">
-    <input type="submit" value="Search">
-</form>
-
-<table>
-    <tr>
-        <th>Items</th>
-        <th></th>
-        <th></th>
-    </tr>
-
+<div class="wrapper-task-items">
     {% for task in tasks %}
-    <tr>
-        <td>
-            {{task.title}}
-        </td>
-        <!--
-        <td>
-            <a href="{% url 'task' task.id %}">See details</a>
-        </td>
-        -->
-        <td>
-            <a href="{% url 'edit-task' task.id %}">Edit</a>
-        </td>
-        <td>
-            <a href="{% url 'delete-task' task.id %}">Delete</a>
-        </td>
-    </tr>
-    
+
+    <div class="wrapper-task">
+        {% if task.complete %}
+        <div class="task-title">
+            <div class="icon-complete-task">
+                <i><s><a href="{% url 'edit-task' task.id %}">{{task}}</a></s></i>
+            </div>
+        </div>
+        <a class="delete-link" href="{% url 'delete-task' task.id %}">&#x2A2F;</a>
+        {% else %}
+        <div class="task-title"></div>
+            <div class="icon-incomplete-task">
+                <a href="{% url 'edit-task' task.id %}">{{task}}</a>
+            </div>
+        </div>
+        <a class="delete-link" href="{% url 'delete-task' task.id %}">&#x2A2F;</a>
+        {% endif %}
+    </div>
     {% empty %}
     <h3>There are no items in this list</h3>
-
     {% endfor %}
-</table>
+</div>
 
 {% endblock content %}
