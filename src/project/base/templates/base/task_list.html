@@ -1,3 +1,7 @@
+{% extends 'base/my_style.html' %}
+{% block content %}
+
+
 {% if request.user.is_authenticated %}
     <p>{{request.user}}</p>
     <form method="POST" action="{% url 'logout' %}">
@@ -30,9 +34,11 @@
         <td>
             {{task.title}}
         </td>
+        <!--
         <td>
             <a href="{% url 'task' task.id %}">See details</a>
         </td>
+        -->
         <td>
             <a href="{% url 'edit-task' task.id %}">Edit</a>
         </td>
@@ -46,3 +52,5 @@
 
     {% endfor %}
 </table>
+
+{% endblock content %}
